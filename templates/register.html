@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri chat</title>
+    {% include 'registercss.html' %}
+</head>
+<body>
+    <header>
+        <div id="title">
+            Agri Chat
+        </div>
+    </header>
+    <section>
+        <div class="form">
+            <h2>Register</h2>
+            <form method="post"><br>
+                {% csrf_token %}
+            <h3>Login</h3>
+            <div class="login-form">
+              <input name="username" class="input"  type="text" autocomplete="off" placeholder="username"/>
+              <input name="password" class="input"  type="password" autocomplete="off" placeholder="password"/>
+            </div>
+            <div class="hl"></div>
+            <h3>User Details</h3>
+            <div class="login-form">
+              <input name="name" class="input" type="text" autocomplete="off" placeholder="Name"/>
+                <input name="number" class="input" type="text" autocomplete="off" placeholder="Mobile no"/>
+            </div>
+            <div class="login-form">
+                <input name="dob" class="input" type="date" autocomplete="off" placeholder="DOB"/>
+                <label for="input" style="margin-left: 3%;" >Gender:</label>
+                <select name="gender" class="input" style="margin-left: 2%;" >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Others">Others</option>
+                  </select>
+            </div>
+            <div class="hl"></div>
+            <h3>Location Details</h3>
+            <div class="login-form">
+                <input name="country" class="input" type="text" autocomplete="off" placeholder="Country"/>
+                <input name="state" class="input" type="text" autocomplete="off" placeholder="State"/> 
+            </div>
+            <div class="login-form">
+                <input name="district" class="input" type="text" autocomplete="off" placeholder="District"/>
+                <input name="taluk" class="input" type="text" autocomplete="off" placeholder="Taluk"/>
+            </div>
+              <input type="submit" id="submit">
+            </form>
+          </div>
+    </section>
+</body>
+</html>

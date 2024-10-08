@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri chat</title>
+    {% include 'chatcss.html' %}
+</head>
+<body>
+    <header>
+        <div id="title">
+            Agri Chat
+        </div>
+    </header>
+    <div class="manage" ><h2>Welcome {{username}}!</h2><a href="{% url 'logout' %}">Logout</a></div>
+        <div class="outermain">
+            <div class="main">
+                <div class="chat" id="chat" style="color: white;">
+                        {% for message in messages %}
+                        <p class="user">User: {{ message.question }}</p>
+                        <p class="bot">Bot: {{ message.reply }}</p>
+                        {% endfor %}
+                </div>
+                    <input onkeypress="handleKeyPress(event)" name="cinp" class="cinp" id="cinp" type="text" placeholder="Message">
+            </div>
+        </div>
+    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) {
+                chat();
+            }
+        }
+        function chat() {
+            var input = document.getElementById("cinp").value;
+            var chat = document.getElementById('chat')
+            document.getElementById("cinp").value = ''; // Clear the input field immediately
+            chat.innerHTML += '<p class="user">User: ' + input + '</p>';
+            chat.innerHTML += '<p class="parent"><lord-icon src="https://cdn.lordicon.com/kvsszuvz.json" trigger="loop" colors="primary:#fff,secondary:#08a88a" style="width:50px; height:50px"></lord-icon></p>';
+            scrollToBottom(chat);
+            $.ajax({
+                type: 'POST',
+                url: '/llm/',
+                data: {
+                    'input': input,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    var message = response.message;
+                    var chat = document.getElementById('chat');
+                    
+                    chat.lastChild.innerHTML = '<p class="bot">Bot: ' + message + '</p>';
+                    scrollToBottom(chat);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error('Error:', errorThrown);
+                }
+            });
+        }
+        function scrollToBottom(element) {
+            element.scrollTop = element.scrollHeight;
+        }
+        $(document).ready(function() {
+            var chatDisplay = document.getElementById('chat');
+            scrollToBottom(chatDisplay);
+            var inp = document.getElementById('cinp');
+            inp.focus();
+        });
+    </script>
+</body>
+</html>
